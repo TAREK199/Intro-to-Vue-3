@@ -10,6 +10,8 @@ app.component('product-display',{
 
 
     template: 
+
+    /*html*/
     `
     <div class="product-display">
     <div class="product-container">
@@ -40,6 +42,8 @@ app.component('product-display',{
                @click="addToCart">Add to Cart</button>
       </div>
     </div>
+    <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+    <review-form @review-submitted="addReview"></review-form>
   </div>
     
     `,
@@ -52,17 +56,21 @@ app.component('product-display',{
             details: ['50% cotton', '30% wool', '20% polyester'],
             variants: [
                 { id: 2234, color: 'green',image:'./assets/images/socks_blue.jpg',quantity:50},
-                { id: 2235, color: 'blue',image:'./assets/images/socks_green.jpg',quantity:0}
-              ]
+                { id: 2235, color: 'blue',image:'./assets/images/socks_green.jpg',quantity:10}
+              ],
+            reviews: []
         }
      },
 
      methods:{
         addToCart(){
-            this.cart +=1
+            this.$emit('add-to-cart',this.variants[this.selectedVariant].id)
         },
         updateVariant(index){
             this.selectedVariant = index
+        },
+        addReview(review){
+            this.reviews.push(review)
         }
      },
 
